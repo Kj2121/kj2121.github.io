@@ -1,0 +1,19 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy to GitHub Pages
+        run: |
+          mkdir -p _site/.well-known
+          cp .well-known/assetlinks.json _site/.well-known/assetlinks.json
+      - uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./_site
